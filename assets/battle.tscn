@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2xypx1hhsvvp"]
+
+[ext_resource type="Script" path="res://src/battle.gd" id="1_0faqm"]
+[ext_resource type="PackedScene" uid="uid://cdbmtdusyy3lk" path="res://assets/battle_terrain.tscn" id="2_qb7ol"]
+[ext_resource type="PackedScene" uid="uid://c7l8j0ygyt5rj" path="res://assets/tactics_camera.tscn" id="2_vtm0x"]
+[ext_resource type="PackedScene" uid="uid://d3tvc7btm1u2g" path="res://assets/ui.tscn" id="4_bnidu"]
+
+[node name="Battle" type="Node3D"]
+script = ExtResource("1_0faqm")
+
+[node name="TacticsCamera" parent="." instance=ExtResource("2_vtm0x")]
+
+[node name="Terrain" parent="." instance=ExtResource("2_qb7ol")]
+
+[node name="UI" parent="." instance=ExtResource("4_bnidu")]
+visible = false

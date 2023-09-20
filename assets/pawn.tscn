@@ -1,0 +1,133 @@
+[gd_scene load_steps=11 format=3 uid="uid://byhwfxny4rk0j"]
+
+[ext_resource type="Script" path="res://src/pawn.gd" id="1_v67hg"]
+[ext_resource type="Texture2D" uid="uid://b3r6ulcla2nu7" path="res://assets/sprites/characters/chr_ro_FeiKanabian.png" id="2_ir6dl"]
+[ext_resource type="Texture2D" uid="uid://ck2kf4gtmpjjp" path="res://assets/sprites/characters/chr_ro_shadow.png" id="3_q0o3u"]
+
+[sub_resource type="Animation" id="Animation_ap7mt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(20, 277, 46, 89)]
+}
+
+[sub_resource type="Animation" id="Animation_tou80"]
+resource_name = "idle_down"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(13, 10, 48, 96), Rect2(102, 11, 48, 96), Rect2(192, 11, 48, 96), Rect2(282, 12, 48, 96), Rect2(373, 11, 48, 96), Rect2(463, 11, 48, 96)]
+}
+
+[sub_resource type="Animation" id="Animation_hf32v"]
+resource_name = "idle_up"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(12, 140, 48, 96), Rect2(102, 140, 48, 96), Rect2(192, 141, 48, 96), Rect2(282, 141, 48, 96), Rect2(373, 141, 48, 96), Rect2(462, 140, 48, 96)]
+}
+
+[sub_resource type="Animation" id="Animation_ro5s7"]
+resource_name = "walk_down"
+length = 0.4
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(20, 274, 48, 92), Rect2(110, 276, 48, 92), Rect2(200, 276, 48, 92), Rect2(288, 276, 48, 92), Rect2(380, 276, 48, 92), Rect2(469, 276, 48, 92), Rect2(566, 276, 48, 92), Rect2(656, 274, 48, 92)]
+}
+
+[sub_resource type="Animation" id="Animation_6nc4w"]
+resource_name = "walk_up"
+length = 0.4
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(21, 414, 48, 92), Rect2(110, 414, 48, 92), Rect2(200, 414, 48, 92), Rect2(289, 414, 48, 92), Rect2(383, 414, 48, 92), Rect2(474, 414, 48, 92), Rect2(564, 414, 48, 92), Rect2(654, 414, 48, 92)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fvyru"]
+_data = {
+"RESET": SubResource("Animation_ap7mt"),
+"idle_down": SubResource("Animation_tou80"),
+"idle_up": SubResource("Animation_hf32v"),
+"walk_down": SubResource("Animation_ro5s7"),
+"walk_up": SubResource("Animation_6nc4w")
+}
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o3yc7"]
+radius = 0.23312
+height = 1.11958
+
+[node name="Pawn" type="RigidBody3D"]
+script = ExtResource("1_v67hg")
+
+[node name="Character" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.376058, 0)
+pixel_size = 0.015
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_ir6dl")
+region_enabled = true
+region_rect = Rect2(20, 277, 46, 89)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Character"]
+libraries = {
+"": SubResource("AnimationLibrary_fvyru")
+}
+
+[node name="Shadow" type="Sprite3D" parent="Character"]
+texture = ExtResource("3_q0o3u")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("CapsuleShape3D_o3yc7")
+
+[node name="L" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.877252, 0)
+visible = false
+light_energy = 3.0
+shadow_enabled = true

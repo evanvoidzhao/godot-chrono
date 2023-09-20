@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3tvc7btm1u2g"]
+
+[ext_resource type="Script" path="res://src/ui.gd" id="1_0dapb"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0dapb")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 284.0
+offset_top = 173.0
+offset_right = 839.0
+offset_bottom = 520.0
+
+[node name="TextEdit" type="TextEdit" parent="Panel"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 44.0
+offset_right = 516.0
+offset_bottom = 243.0
+editable = false
+
+[node name="Confirm" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 279.0
+offset_right = 173.0
+offset_bottom = 315.0
+text = "確認"
+
+[node name="Cancel" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 382.0
+offset_top = 280.0
+offset_right = 459.0
+offset_bottom = 316.0
+text = "取消"
+
+[connection signal="pressed" from="Panel/Confirm" to="." method="_on_confirm_pressed"]
+[connection signal="pressed" from="Panel/Cancel" to="." method="_on_cancel_pressed"]
