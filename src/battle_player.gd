@@ -75,7 +75,7 @@ func reset_to_grid(grid_pos : Vector2):
 	position.z = grid_pos.y+0.5
 
 func enter_running():
-	print(player_id, ": battle running ")
+	print(player_id, ": battle running, current hp:", cur_hp, " current mp:", cur_mp)
 
 func enter_stop():
 	print(player_id, ": battle stop ")
@@ -132,10 +132,14 @@ func cast_act_attack(delta):
 func check_can_attack(action : Attack):
 	var target = battle.get_player_from_grid_map(action.attack_position)
 	if target == null : 
-		print(player_id ," no attack target")
+		print(player_id ,": no attack target")
+		return false
+	var distance_square = player_grid_positon.distance_squared_to(target.player_grid_positon)
+	if distance_square > (action.attack_range * action.attack_range) * 2: 
+		print(player_id ,": attack target out of range")
 		return false
 	action.attack_target = target
-	print(player_id ," attack target:", target.player_id)
+	print(player_id ,": attack target:", target.player_id)
 	return true
 
 func check_still_can_attack(action : Attack):
@@ -276,7 +280,7 @@ func transit_act_state(state):
 			act_state = state
 			idle_state_pre_act()
 			return
-	print(player_id ,"error state transit occuried")	
+	print(player_id ,": error state transit occuried")	
 
 func idle_state_pre_act():
 	act_position = 0
@@ -313,7 +317,8 @@ func cast_state_pre_act():
 			transit_act_state(ActState.COOLDOWN)
 	
 func cast_state_post_act():
-	pass
+	if player_action.act_name == Attack.s_act_name:
+		do_attack_damage(player_action)
 
 func cooldown_state_pre_act():
 	act_position = 0
@@ -370,7 +375,15 @@ func enable_select_tile(b : bool):
 	select_tile.position.x = 0
 	select_tile.position.z = 0
 	select_tile.visible = b
-	
+
+func do_attack_damage(attack : Attack):
+	var h = attack.attack_target.cur_hp - attack.attack_damage
+	if h < 0:
+		attack.attack_target.cur_hp = 0
+	else:
+		attack.attack_target.cur_hp = h
+	print(player_id, ": attack ", attack.attack_target.player_id, " damage: ", attack.attack_damage)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	reset_to_grid(Vector2(0,0))
@@ -383,7 +396,6 @@ func _ready():
 	act_position = 0
 	transit_act_state(ActState.COOLDOWN)
 	pass # Replace with function body.
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

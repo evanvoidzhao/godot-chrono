@@ -12,4 +12,5 @@ func _init():
 	act_name = s_act_name
 	pre_range = 10
 	post_range = 3
+	attack_range = 2
 
