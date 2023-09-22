@@ -129,15 +129,25 @@ func cast_act_attack(delta):
 	if act_position >= 10:
 		transit_act_state(ActState.COOLDOWN)
 
-func check_can_attack():
-	var attack_target = battle.get_player_from_grid_map(player_action.attack_position)
-	if attack_target == null : 
+func check_can_attack(action : Attack):
+	var target = battle.get_player_from_grid_map(action.attack_position)
+	if target == null : 
 		print(player_id ," no attack target")
-		player_action = null 
 		return false
-	print(player_id ," attack target:", attack_target.player_id)
+	action.attack_target = target
+	print(player_id ," attack target:", target.player_id)
 	return true
+
+func check_still_can_attack(action : Attack):
+	var target_player = action.attack_target
+	print(target_player.player_grid_positon)
+	var distance_square = player_grid_positon.distance_squared_to(target_player.player_grid_positon)
+	if distance_square > (action.attack_range * action.attack_range) * 2: 
+		return false
+	else:
+		return true
 	
+
 func update_sp(delta):
 	if cur_sp < max_sp:
 		cur_sp = cur_sp + (delta * sp_update_speed)
@@ -194,7 +204,11 @@ func check_action():
 			cur_sp = (cur_sp - 50) 
 			return true
 	if player_action.act_name == Attack.s_act_name:
-		return check_can_attack()
+		if check_can_attack(player_action):
+			return true
+		else:
+			player_action = null 
+			return false
 
 
 func check_idle_input(delta):
@@ -237,30 +251,30 @@ func transit_act_state(state):
 	if act_state == ActState.IDLE:
 		idle_state_post_act()
 		if state == ActState.PRECAST:
-			precast_state_pre_act()
 			act_state = state
+			precast_state_pre_act()
 			return
 		if state == ActState.COOLDOWN:
-			cooldown_state_pre_act()
 			act_state = state
+			cooldown_state_pre_act()
 			return
 	if act_state == ActState.PRECAST:
 		precast_state_post_act()
 		if state == ActState.CAST:
-			cast_state_pre_act()
 			act_state = state
+			cast_state_pre_act()
 			return
 	if act_state == ActState.CAST:
 		cast_state_post_act()
 		if state == ActState.COOLDOWN:
-			cooldown_state_pre_act()
 			act_state = state
+			cooldown_state_pre_act()
 			return
 	if act_state == ActState.COOLDOWN:
 		cooldown_state_post_act()
 		if state == ActState.IDLE:
-			idle_state_pre_act()
 			act_state = state
+			idle_state_pre_act()
 			return
 	print(player_id ,"error state transit occuried")	
 
@@ -290,7 +304,13 @@ func cast_state_pre_act():
 	act_position = 0
 	battle.change_state(battle.TacticsState.STOP)
 	act_bar.get_node("State").text = "CAST"
-	print(player_id ,": enter cast state: ")
+	print(player_id ,": enter cast state")
+	if player_action.act_name == Move.s_act_name:
+		pass #todo 考虑把移动判断移动到这里
+	if player_action.act_name == Attack.s_act_name:
+		if !check_still_can_attack(player_action):
+			print(player_id ,": attack out of range" )
+			transit_act_state(ActState.COOLDOWN)
 	
 func cast_state_post_act():
 	pass
