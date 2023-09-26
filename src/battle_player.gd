@@ -68,7 +68,7 @@ func configure(id : String, act_s : float, h : int, m: int, s : int):
 	cur_mp = max_mp
 	max_sp = s
 	cur_sp = max_sp
-
+ 
 func reset_to_grid(grid_pos : Vector2):
 	player_grid_positon = grid_pos
 	position.x = grid_pos.x+0.5
@@ -79,7 +79,7 @@ func enter_running():
 
 func enter_stop():
 	print(player_id, ": battle stop ")
-	
+
 func pre_act(delta):
 	#if action.keys()[0] == "move":
 	if player_action == null: return
@@ -201,11 +201,11 @@ func move_target(v : Vector2):
 func check_action():
 	if player_action == null : return false
 	if player_action.act_name == Move.s_act_name:
-		if cur_sp < 50:
+		if cur_sp < Move.s_act_sp:
 			player_action = null 
 			return false
 		else : 
-			cur_sp = (cur_sp - 50) 
+			cur_sp = (cur_sp - Move.s_act_sp) 
 			return true
 	if player_action.act_name == Attack.s_act_name:
 		if check_can_attack(player_action):
@@ -312,13 +312,14 @@ func cast_state_pre_act():
 	if player_action.act_name == Move.s_act_name:
 		pass #todo 考虑把移动判断移动到这里
 	if player_action.act_name == Attack.s_act_name:
-		if !check_still_can_attack(player_action):
+		if check_still_can_attack(player_action):
+			do_attack_damage(player_action)
+		else:
 			print(player_id ,": attack out of range" )
 			transit_act_state(ActState.COOLDOWN)
 	
 func cast_state_post_act():
-	if player_action.act_name == Attack.s_act_name:
-		do_attack_damage(player_action)
+	pass
 
 func cooldown_state_pre_act():
 	act_position = 0

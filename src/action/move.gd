@@ -2,6 +2,7 @@ extends Action
 class_name Move
 
 static var s_act_name = "MOVE"
+static var s_act_sp = 20
 
 var  target_position : Vector2 = Vector2.ZERO
 
