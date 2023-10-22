@@ -32,6 +32,7 @@ transform = Transform3D(0.566406, -0.599777, 0.565201, 0, 0.685818, 0.727773, -0
 light_energy = 3.0
 light_bake_mode = 0
 shadow_enabled = true
+directional_shadow_blend_splits = true
 sky_mode = 1
 
 [node name="Plane" type="MeshInstance3D" parent="."]

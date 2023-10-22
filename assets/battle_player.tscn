@@ -21,6 +21,6 @@ script = ExtResource("1_qkpu0")
 [node name="ActBar" parent="." instance=ExtResource("3_eetbj")]
 
 [node name="SelectTile" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.001, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 mesh = SubResource("PlaneMesh_tb775")
 surface_material_override/0 = SubResource("StandardMaterial3D_4hwjn")
