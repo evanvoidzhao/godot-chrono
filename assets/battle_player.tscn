@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://wncb254i154u"]
+[gd_scene load_steps=7 format=3 uid="uid://wncb254i154u"]
 
 [ext_resource type="Script" path="res://src/battle_player.gd" id="1_qkpu0"]
+[ext_resource type="PackedScene" uid="uid://d0qwabssdf0ke" path="res://assets/cmd_panel.tscn" id="2_35efr"]
 [ext_resource type="PackedScene" uid="uid://byhwfxny4rk0j" path="res://assets/pawn.tscn" id="2_qs61v"]
-[ext_resource type="Script" path="res://src/cmd_panel.gd" id="3_17g8a"]
+[ext_resource type="PackedScene" uid="uid://cyu2u5wkc7a1k" path="res://assets/act_bar.tscn" id="3_eetbj"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_tb775"]
 size = Vector2(1, 1)
@@ -15,98 +16,11 @@ script = ExtResource("1_qkpu0")
 
 [node name="Pawn" parent="." instance=ExtResource("2_qs61v")]
 
-[node name="CmdPanel" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 51.0
-offset_bottom = 40.0
-script = ExtResource("3_17g8a")
+[node name="CmdPanel" parent="." instance=ExtResource("2_35efr")]
 
-[node name="Level1" type="Control" parent="CmdPanel"]
-layout_mode = 2
-anchors_preset = 0
-offset_right = 51.0
-
-[node name="MainPanel" type="VBoxContainer" parent="CmdPanel/Level1"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Move" type="Button" parent="CmdPanel/Level1/MainPanel"]
-layout_mode = 2
-text = "Move"
-
-[node name="Attack" type="Button" parent="CmdPanel/Level1/MainPanel"]
-layout_mode = 2
-text = "Attack"
-
-[node name="Level2" type="Control" parent="CmdPanel"]
-layout_mode = 2
-anchors_preset = 0
-offset_top = 4.0
-offset_right = 51.0
-offset_bottom = 4.0
-
-[node name="Move" type="VBoxContainer" parent="CmdPanel/Level2"]
-layout_mode = 0
-offset_right = 53.0
-offset_bottom = 171.0
-
-[node name="Up" type="Button" parent="CmdPanel/Level2/Move"]
-layout_mode = 2
-text = "Up"
-
-[node name="Down" type="Button" parent="CmdPanel/Level2/Move"]
-layout_mode = 2
-text = "Down"
-
-[node name="Left" type="Button" parent="CmdPanel/Level2/Move"]
-layout_mode = 2
-text = "Left"
-
-[node name="Right" type="Button" parent="CmdPanel/Level2/Move"]
-layout_mode = 2
-text = "Right"
-
-[node name="Back" type="Button" parent="CmdPanel/Level2/Move"]
-layout_mode = 2
-text = "Back"
-
-[node name="Attack" type="VBoxContainer" parent="CmdPanel/Level2"]
-layout_mode = 0
-offset_right = 53.0
-offset_bottom = 171.0
-
-[node name="Back" type="Button" parent="CmdPanel/Level2/Attack"]
-layout_mode = 2
-text = "Back"
-
-[node name="ActBar" type="VBoxContainer" parent="."]
-offset_right = 62.0
-offset_bottom = 56.0
-
-[node name="State" type="Label" parent="ActBar"]
-layout_mode = 2
-text = "IDLE"
-
-[node name="ActPosition" type="Label" parent="ActBar"]
-layout_mode = 2
-text = "100/100"
-
-[node name="SP" type="Label" parent="ActBar"]
-layout_mode = 2
-text = "50/50"
+[node name="ActBar" parent="." instance=ExtResource("3_eetbj")]
 
 [node name="SelectTile" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.001, 0)
 mesh = SubResource("PlaneMesh_tb775")
 surface_material_override/0 = SubResource("StandardMaterial3D_4hwjn")
-
-[connection signal="pressed" from="CmdPanel/Level1/MainPanel/Move" to="CmdPanel" method="_on_move_pressed"]
-[connection signal="pressed" from="CmdPanel/Level1/MainPanel/Attack" to="CmdPanel" method="_on_attack_pressed"]
-[connection signal="pressed" from="CmdPanel/Level2/Move/Up" to="CmdPanel" method="_on_up_pressed"]
-[connection signal="pressed" from="CmdPanel/Level2/Move/Down" to="CmdPanel" method="_on_down_pressed"]
-[connection signal="pressed" from="CmdPanel/Level2/Move/Left" to="CmdPanel" method="_on_left_pressed"]
-[connection signal="pressed" from="CmdPanel/Level2/Move/Right" to="CmdPanel" method="_on_right_pressed"]
-[connection signal="pressed" from="CmdPanel/Level2/Move/Back" to="CmdPanel" method="_on_back_pressed"]
-[connection signal="pressed" from="CmdPanel/Level2/Attack/Back" to="CmdPanel" method="_on_atack_back_pressed"]

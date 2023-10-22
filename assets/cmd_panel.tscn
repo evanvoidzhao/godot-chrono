@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0qwabssdf0ke"]
+
+[ext_resource type="Script" path="res://src/cmd_panel.gd" id="1_psmel"]
+
+[node name="CmdPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 51.0
+offset_bottom = 40.0
+script = ExtResource("1_psmel")
+
+[node name="Level1" type="Control" parent="."]
+layout_mode = 2
+anchors_preset = 0
+offset_right = 51.0
+
+[node name="MainPanel" type="VBoxContainer" parent="Level1"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Move" type="Button" parent="Level1/MainPanel"]
+layout_mode = 2
+text = "Move"
+
+[node name="Attack" type="Button" parent="Level1/MainPanel"]
+layout_mode = 2
+text = "Attack"
+
+[node name="Level2" type="Control" parent="."]
+layout_mode = 2
+anchors_preset = 0
+offset_top = 4.0
+offset_right = 51.0
+offset_bottom = 4.0
+
+[node name="Move" type="VBoxContainer" parent="Level2"]
+layout_mode = 0
+offset_right = 53.0
+offset_bottom = 171.0
+
+[node name="Up" type="Button" parent="Level2/Move"]
+layout_mode = 2
+text = "Up"
+
+[node name="Down" type="Button" parent="Level2/Move"]
+layout_mode = 2
+text = "Down"
+
+[node name="Left" type="Button" parent="Level2/Move"]
+layout_mode = 2
+text = "Left"
+
+[node name="Right" type="Button" parent="Level2/Move"]
+layout_mode = 2
+text = "Right"
+
+[node name="Back" type="Button" parent="Level2/Move"]
+layout_mode = 2
+text = "Back"
+
+[node name="Attack" type="VBoxContainer" parent="Level2"]
+layout_mode = 0
+offset_right = 53.0
+offset_bottom = 171.0
+
+[node name="Back" type="Button" parent="Level2/Attack"]
+layout_mode = 2
+text = "Back"
+
+[connection signal="pressed" from="Level1/MainPanel/Move" to="." method="_on_move_pressed"]
+[connection signal="pressed" from="Level1/MainPanel/Attack" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="Level2/Move/Up" to="." method="_on_up_pressed"]
+[connection signal="pressed" from="Level2/Move/Down" to="." method="_on_down_pressed"]
+[connection signal="pressed" from="Level2/Move/Left" to="." method="_on_left_pressed"]
+[connection signal="pressed" from="Level2/Move/Right" to="." method="_on_right_pressed"]
+[connection signal="pressed" from="Level2/Move/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Level2/Attack/Back" to="." method="_on_atack_back_pressed"]

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cyu2u5wkc7a1k"]
+
+[node name="ActBar" type="VBoxContainer"]
+offset_right = 62.0
+offset_bottom = 56.0
+
+[node name="State" type="Label" parent="."]
+layout_mode = 2
+text = "IDLE"
+
+[node name="ActPosition" type="Label" parent="."]
+layout_mode = 2
+text = "100/100"
+
+[node name="SP" type="Label" parent="."]
+layout_mode = 2
+text = "50/50"

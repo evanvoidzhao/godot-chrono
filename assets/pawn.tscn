@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://byhwfxny4rk0j"]
+[gd_scene load_steps=10 format=3 uid="uid://byhwfxny4rk0j"]
 
 [ext_resource type="Script" path="res://src/pawn.gd" id="1_v67hg"]
 [ext_resource type="Texture2D" uid="uid://b3r6ulcla2nu7" path="res://assets/sprites/characters/chr_ro_FeiKanabian.png" id="2_ir6dl"]
@@ -98,15 +98,12 @@ _data = {
 "walk_up": SubResource("Animation_6nc4w")
 }
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o3yc7"]
-radius = 0.23312
-height = 1.11958
-
-[node name="Pawn" type="RigidBody3D"]
+[node name="Pawn" type="Node3D"]
 script = ExtResource("1_v67hg")
 
 [node name="Character" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.376058, 0)
+sorting_offset = 10.0
+centered = false
 pixel_size = 0.015
 billboard = 1
 texture_filter = 0
@@ -120,14 +117,13 @@ libraries = {
 }
 
 [node name="Shadow" type="Sprite3D" parent="Character"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.186, 0, 0)
+visible = false
+sorting_offset = 9.0
+centered = false
 texture = ExtResource("3_q0o3u")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
-shape = SubResource("CapsuleShape3D_o3yc7")
-
-[node name="L" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.877252, 0)
+[node name="L" type="OmniLight3D" parent="Character"]
 visible = false
 light_energy = 3.0
 shadow_enabled = true
