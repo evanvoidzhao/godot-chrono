@@ -22,8 +22,8 @@ var cmd_panel : Node = null
 var act_bar : Node = null
 var select_tile = null
 
-var player_grid_positon: Vector2 = Vector2.ZERO
-var target_grid_positon: Vector2 = Vector2.ZERO
+var player_grid: Vector2 = Vector2.ZERO
+var target_grid: Vector2 = Vector2.ZERO
 
 var act_state: int = ActState.IDLE
 var player_state: int = PlayerState.IDLE
@@ -70,7 +70,7 @@ func configure(id : String, act_s : float, h : int, m: int, s : int):
 	cur_sp = max_sp
  
 func reset_to_grid(grid_pos : Vector2):
-	player_grid_positon = grid_pos
+	player_grid = grid_pos
 	position.x = grid_pos.x+0.5
 	position.z = grid_pos.y+0.5
 
@@ -83,7 +83,7 @@ func enter_stop():
 func pre_act(delta):
 	#if action.keys()[0] == "move":
 	if player_action == null: return
-		#target_grid_positon = action.get("move").get("position")
+		#target_grid = action.get("move").get("position")
 	act_position = act_position + (delta * act_speed)
 	act_bar.get_node("ActPosition").text = str(int(act_position/player_action.pre_range*100)) + "/100"
 	if act_position >= player_action.pre_range:
@@ -113,12 +113,12 @@ func cooldown(delta):
 		
 func cast_act_move():
 	player_state = PlayerState.MOVE
-	if !check_dst_available(target_grid_positon):
+	if !check_dst_available(target_grid):
 		print(player_id ,": cast move faild because a player occuped")
-		target_grid_positon = player_grid_positon
-	if !check_grid_available(target_grid_positon):
+		target_grid = player_grid
+	if !check_grid_available(target_grid):
 		print(player_id ,": cast move faild because not a valid grid pos")
-		target_grid_positon = player_grid_positon
+		target_grid = player_grid
 	var is_reach_dst = move_to_target_grid()
 	if is_reach_dst:
 		player_state = PlayerState.IDLE
@@ -134,7 +134,7 @@ func check_can_attack(action : Attack):
 	if target == null : 
 		print(player_id ,": no attack target")
 		return false
-	var distance_square = player_grid_positon.distance_squared_to(target.player_grid_positon)
+	var distance_square = player_grid.distance_squared_to(target.player_grid)
 	if distance_square > (action.attack_range * action.attack_range) * 2: 
 		print(player_id ,": attack target out of range")
 		return false
@@ -144,8 +144,8 @@ func check_can_attack(action : Attack):
 
 func check_still_can_attack(action : Attack):
 	var target_player = action.attack_target
-	print(target_player.player_grid_positon)
-	var distance_square = player_grid_positon.distance_squared_to(target_player.player_grid_positon)
+	print(target_player.player_grid)
+	var distance_square = player_grid.distance_squared_to(target_player.player_grid)
 	if distance_square > (action.attack_range * action.attack_range) * 2: 
 		return false
 	else:
@@ -167,8 +167,8 @@ func check_grid_available(v):
 	return battle.check_grid_available(v)
 	
 func random_move_target():
-	var x = player_grid_positon.x
-	var y = player_grid_positon.y
+	var x = player_grid.x
+	var y = player_grid.y
 	var xory = randi_range(0, 1)
 	var addorminus = randi_range(0, 1)
 	if xory :
@@ -192,11 +192,11 @@ func random_move_target():
 func move_target(v : Vector2):
 	#action = {
 	#	"move" : {
-	#		"position" : (player_grid_positon + v)
+	#		"position" : (player_grid + v)
 	#	}
 	#}
 	player_action = Move.new()
-	player_action.target_position = player_grid_positon + v
+	player_action.target_position = player_grid + v
 	
 func check_action():
 	if player_action == null : return false
@@ -298,7 +298,7 @@ func precast_state_pre_act():
 	act_position = 0
 	act_bar.get_node("State").text = "PRECAST"
 	if player_action.act_name == Move.s_act_name:
-		target_grid_positon = player_action.target_position
+		target_grid = player_action.target_position
 	print(player_id ,": enter precast state" )
 
 func precast_state_post_act():
@@ -334,7 +334,7 @@ func move_to_target_grid() -> bool:
 	if player_state != PlayerState.MOVE: return false
 	#set_position(Vector3(grid_pos.x+0.5, , grid_pos.y+0.5))
 	
-	var vel = Vector3(target_grid_positon.x - player_grid_positon.x, 0 , target_grid_positon.y - player_grid_positon.y)
+	var vel = Vector3(target_grid.x - player_grid.x, 0 , target_grid.y - player_grid.y)
 	dir = vel
 	
 	set_velocity(vel*SPEED)
@@ -348,15 +348,15 @@ func move_to_target_grid() -> bool:
 	if cur_pos.distance_to(get_target_pos()) >= 0.05: return false
 	
 	### 到達目的grid
-	battle.set_player_grid_map(player_grid_positon,target_grid_positon,self)
-	player_grid_positon = target_grid_positon
-	reset_to_grid(target_grid_positon)
+	battle.set_player_grid_map(player_grid,target_grid,self)
+	player_grid = target_grid
+	reset_to_grid(target_grid)
 	pawn.enter_idle_animation()
-	print(player_id ,": end moving  current grid pos: ", player_grid_positon)
+	print(player_id ,": end moving  current grid pos: ", player_grid)
 	return true
 
 func get_target_pos():
-	return Vector2(target_grid_positon.x + 0.5, target_grid_positon.y + 0.5)
+	return Vector2(target_grid.x + 0.5, target_grid.y + 0.5)
 
 func update_act_bar():
 	var camera = get_viewport().get_camera_3d()
