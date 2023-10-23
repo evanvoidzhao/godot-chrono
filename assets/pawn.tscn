@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://byhwfxny4rk0j"]
+[gd_scene load_steps=18 format=3 uid="uid://byhwfxny4rk0j"]
 
 [ext_resource type="Script" path="res://src/pawn.gd" id="1_v67hg"]
 [ext_resource type="Texture2D" uid="uid://b3r6ulcla2nu7" path="res://assets/sprites/characters/chr_ro_FeiKanabian.png" id="2_ir6dl"]
@@ -19,10 +19,9 @@ tracks/0/keys = {
 "values": [Rect2(20, 277, 46, 89)]
 }
 
-[sub_resource type="Animation" id="Animation_tou80"]
-resource_name = "idle_down"
+[sub_resource type="Animation" id="Animation_p8oi0"]
+resource_name = "attack_down"
 length = 0.6
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -33,13 +32,44 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Rect2(0, 14, 100, 120), Rect2(100, 14, 100, 120), Rect2(200, 14, 100, 120), Rect2(300, 14, 100, 120), Rect2(400, 14, 100, 120), Rect2(500, 14, 100, 120)]
+"values": [Rect2(22, 562, 43, 90), Rect2(109, 560, 48, 93), Rect2(194, 558, 51, 93), Rect2(275, 567, 69, 76), Rect2(363, 568, 72, 73), Rect2(453, 569, 72, 72)]
+}
+
+[sub_resource type="Animation" id="Animation_xr8nk"]
+resource_name = "attack_up"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(17, 703, 48, 91), Rect2(115, 703, 33, 92), Rect2(203, 703, 36, 92), Rect2(275, 711, 73, 76), Rect2(370, 712, 64, 74), Rect2(468, 714, 66, 73)]
+}
+
+[sub_resource type="Animation" id="Animation_tou80"]
+resource_name = "idle_down"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(15, 15, 44, 91), Rect2(105, 15, 44, 92), Rect2(195, 14, 44, 93), Rect2(285, 14, 44, 94), Rect2(375, 14, 44, 93), Rect2(465, 15, 45, 92)]
 }
 
 [sub_resource type="Animation" id="Animation_hf32v"]
 resource_name = "idle_up"
 length = 0.6
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -50,13 +80,12 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Rect2(0, 164, 100, 120), Rect2(100, 164, 100, 120), Rect2(200, 164, 100, 120), Rect2(300, 164, 100, 120), Rect2(400, 164, 100, 120), Rect2(500, 164, 100, 120)]
+"values": [Rect2(13, 142, 46, 90), Rect2(104, 141, 45, 91), Rect2(194, 141, 44, 92), Rect2(284, 140, 44, 93), Rect2(375, 141, 43, 92), Rect2(463, 141, 46, 91)]
 }
 
 [sub_resource type="Animation" id="Animation_ro5s7"]
 resource_name = "walk_down"
 length = 0.4
-loop_mode = 1
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -68,13 +97,12 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Rect2(0, 314, 100, 120), Rect2(100, 314, 100, 120), Rect2(200, 314, 100, 120), Rect2(300, 314, 100, 120), Rect2(400, 314, 100, 120), Rect2(500, 314, 100, 120), Rect2(600, 314, 100, 120), Rect2(700, 314, 100, 120)]
+"values": [Rect2(20, 277, 46, 89), Rect2(110, 279, 46, 86), Rect2(201, 280, 45, 83), Rect2(289, 280, 48, 84), Rect2(381, 279, 45, 86), Rect2(470, 280, 47, 84), Rect2(567, 280, 47, 86), Rect2(657, 278, 47, 89)]
 }
 
 [sub_resource type="Animation" id="Animation_6nc4w"]
 resource_name = "walk_up"
 length = 0.4
-loop_mode = 1
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -86,11 +114,11 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Rect2(0, 464, 100, 120), Rect2(100, 464, 100, 120), Rect2(200, 464, 100, 120), Rect2(300, 464, 100, 120), Rect2(400, 464, 100, 120), Rect2(500, 464, 100, 120), Rect2(600, 464, 100, 120), Rect2(700, 464, 100, 120)]
+"values": [Rect2(21, 415, 46, 92), Rect2(111, 415, 47, 91), Rect2(201, 416, 47, 89), Rect2(291, 420, 47, 82), Rect2(386, 418, 46, 85), Rect2(474, 418, 49, 85), Rect2(565, 419, 46, 83), Rect2(655, 417, 47, 87)]
 }
 
-[sub_resource type="Animation" id="Animation_p8oi0"]
-resource_name = "attack_down"
+[sub_resource type="Animation" id="Animation_utd8y"]
+resource_name = "attack_down_2"
 length = 0.9
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -105,8 +133,8 @@ tracks/0/keys = {
 "values": [Rect2(2, 614, 88, 120), Rect2(90, 614, 88, 120), Rect2(178, 614, 88, 120), Rect2(266, 614, 88, 120), Rect2(369, 616, 122, 120), Rect2(512, 616, 122, 120), Rect2(655, 616, 122, 120), Rect2(798, 616, 122, 120), Rect2(910, 616, 122, 120)]
 }
 
-[sub_resource type="Animation" id="Animation_xr8nk"]
-resource_name = "attack_up"
+[sub_resource type="Animation" id="Animation_5k8s5"]
+resource_name = "attack_up_2"
 length = 0.9
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -121,15 +149,87 @@ tracks/0/keys = {
 "values": [Rect2(5, 762, 89, 120), Rect2(94, 762, 89, 120), Rect2(183, 762, 89, 120), Rect2(272, 762, 89, 120), Rect2(374, 762, 120, 120), Rect2(514, 762, 120, 120), Rect2(654, 762, 120, 120), Rect2(794, 762, 120, 120), Rect2(924, 762, 120, 120)]
 }
 
+[sub_resource type="Animation" id="Animation_pp870"]
+resource_name = "idle_down_2"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 14, 100, 120), Rect2(100, 14, 100, 120), Rect2(200, 14, 100, 120), Rect2(300, 14, 100, 120), Rect2(400, 14, 100, 120), Rect2(500, 14, 100, 120)]
+}
+
+[sub_resource type="Animation" id="Animation_rn0b5"]
+resource_name = "idle_up_2"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 164, 100, 120), Rect2(100, 164, 100, 120), Rect2(200, 164, 100, 120), Rect2(300, 164, 100, 120), Rect2(400, 164, 100, 120), Rect2(500, 164, 100, 120)]
+}
+
+[sub_resource type="Animation" id="Animation_v7y0t"]
+resource_name = "walk_down_2"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 314, 100, 120), Rect2(100, 314, 100, 120), Rect2(200, 314, 100, 120), Rect2(300, 314, 100, 120), Rect2(400, 314, 100, 120), Rect2(500, 314, 100, 120), Rect2(600, 314, 100, 120), Rect2(700, 314, 100, 120)]
+}
+
+[sub_resource type="Animation" id="Animation_527qj"]
+resource_name = "walk_up_2"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 464, 100, 120), Rect2(100, 464, 100, 120), Rect2(200, 464, 100, 120), Rect2(300, 464, 100, 120), Rect2(400, 464, 100, 120), Rect2(500, 464, 100, 120), Rect2(600, 464, 100, 120), Rect2(700, 464, 100, 120)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fvyru"]
 _data = {
 "RESET": SubResource("Animation_ap7mt"),
 "attack_down": SubResource("Animation_p8oi0"),
+"attack_down_2": SubResource("Animation_utd8y"),
 "attack_up": SubResource("Animation_xr8nk"),
+"attack_up_2": SubResource("Animation_5k8s5"),
 "idle_down": SubResource("Animation_tou80"),
+"idle_down_2": SubResource("Animation_pp870"),
 "idle_up": SubResource("Animation_hf32v"),
+"idle_up_2": SubResource("Animation_rn0b5"),
 "walk_down": SubResource("Animation_ro5s7"),
-"walk_up": SubResource("Animation_6nc4w")
+"walk_down_2": SubResource("Animation_v7y0t"),
+"walk_up": SubResource("Animation_6nc4w"),
+"walk_up_2": SubResource("Animation_527qj")
 }
 
 [node name="Pawn" type="Node3D"]
@@ -137,7 +237,6 @@ script = ExtResource("1_v67hg")
 
 [node name="Character" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
-visible = false
 pixel_size = 0.015
 billboard = 1
 shaded = true
@@ -158,6 +257,7 @@ shadow_enabled = true
 
 [node name="Character2" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+visible = false
 pixel_size = 0.015
 billboard = 1
 shaded = true
