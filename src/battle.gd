@@ -81,25 +81,25 @@ func _ready():
 	var scene = preload("res://assets/battle_player.tscn")
 	for i in [0,1,2]:
 		var p : BattlePlayer = scene.instantiate()
-		
-		self.add_child(p)
 		p.configure("player"+str(i), randf_range(0.5, 1.5),100,100,50)
-		var grid_player = vector2_to_str(Vector2(0,1+i))
+		p.init_grid = Vector2(0,1+i)
+		var grid_player = vector2_to_str(p.init_grid)
 		player_grid_map[grid_player] = p
+		self.add_child(p)
 		
 	#player1.configure("player1", 0.7)
 	#player2.configure("player2", 1)
 	#player2.reset_to_grid(Vector2(0,1))
 	
-	var grid_player1 = vector2_to_str(Vector2(0,1))
-	var grid_player2 = vector2_to_str(Vector2(0,2))
+	#var grid_player1 = vector2_to_str(Vector2(0,1))
+	#var grid_player2 = vector2_to_str(Vector2(0,2))
 	
 	#player_grid_map[grid_player1] = player1
 	#player_grid_map[grid_player2] = player2 
 	
-	for grid_pos in player_grid_map:
-		var player = player_grid_map[grid_pos]
-		player.reset_to_grid(str_to_vector2(grid_pos))
+	#for grid_pos in player_grid_map:
+	#	var player = player_grid_map[grid_pos]
+	#	player.reset_to_grid(str_to_vector2(grid_pos))
 	
 	change_state(TacticsState.RUNNING)
 	

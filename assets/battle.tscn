@@ -18,3 +18,4 @@ visible = false
 
 [node name="Player" parent="." instance=ExtResource("5_galko")]
 sp_update_speed = 4.0
+init_grid = Vector2(5, 5)

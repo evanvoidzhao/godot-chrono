@@ -56,6 +56,7 @@ var player_action : Action = null
 @export var cur_mp : int = 100
 @export var cur_sp : float = 50
 @export var sp_update_speed : float = 1.0
+@export var init_grid : Vector2 = Vector2(0,0)
 
 func configure(id : String, act_s : float, h : int, m: int, s : int):
 	assert(player_id != "")
@@ -68,10 +69,10 @@ func configure(id : String, act_s : float, h : int, m: int, s : int):
 	max_sp = s
 	cur_sp = max_sp
  
-func reset_to_grid(grid_pos : Vector2):
-	player_grid = grid_pos
-	position.x = grid_pos.x+0.5
-	position.z = grid_pos.y+0.5
+func reset_to_grid(grid : Vector2):
+	player_grid = grid
+	position.x = grid.x+0.5
+	position.z = grid.y+0.5
 
 func enter_running():
 	print(player_id, ": battle running, current hp:", cur_hp, " current mp:", cur_mp)
@@ -387,7 +388,7 @@ func do_attack_damage(attack : Attack):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	assert(player_id != "")
-	reset_to_grid(Vector2(0,0))
+	reset_to_grid(init_grid)
 	pawn = $Pawn
 	battle = get_parent()
 	cmd_panel = get_node("CmdPanel")
