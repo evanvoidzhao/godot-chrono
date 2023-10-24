@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://c2xypx1hhsvvp"]
+[gd_scene load_steps=6 format=3 uid="uid://c2xypx1hhsvvp"]
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_0faqm"]
 [ext_resource type="PackedScene" uid="uid://cdbmtdusyy3lk" path="res://assets/battle_terrain.tscn" id="2_qb7ol"]
 [ext_resource type="PackedScene" uid="uid://c7l8j0ygyt5rj" path="res://assets/tactics_camera.tscn" id="2_vtm0x"]
 [ext_resource type="PackedScene" uid="uid://d3tvc7btm1u2g" path="res://assets/ui.tscn" id="4_bnidu"]
 [ext_resource type="PackedScene" uid="uid://wncb254i154u" path="res://assets/battle_player.tscn" id="5_galko"]
-[ext_resource type="PackedScene" uid="uid://cqkemcx7abuq7" path="res://assets/battle_enemy.tscn" id="6_o1wq2"]
 
 [node name="Battle" type="Node3D"]
 script = ExtResource("1_0faqm")
@@ -17,16 +16,6 @@ script = ExtResource("1_0faqm")
 [node name="UI" parent="." instance=ExtResource("4_bnidu")]
 visible = false
 
-[node name="Sprite" type="Node" parent="."]
-
-[node name="Player" parent="Sprite" instance=ExtResource("5_galko")]
+[node name="Player" parent="." instance=ExtResource("5_galko")]
 sp_update_speed = 4.0
 init_grid = Vector2(5, 5)
-
-[node name="Enemy" parent="Sprite" instance=ExtResource("6_o1wq2")]
-player_id = "enemy01"
-init_grid = Vector2(1, 1)
-
-[node name="Enemy2" parent="Sprite" instance=ExtResource("6_o1wq2")]
-player_id = "enemy02"
-init_grid = Vector2(2, 3)

@@ -1,5 +1,5 @@
 extends BattleSprite
-class_name BattlePlayer
+class_name BattleEnemy
 
 enum ActState{
 	IDLE,
@@ -17,9 +17,7 @@ const SPEED = 5
 
 var battle : Battle = null
 var pawn : Pawn = null
-var cmd_panel : Node = null
 var act_bar : Node = null
-var select_tile = null
 
 var player_grid: Vector2 = Vector2.ZERO
 var target_grid: Vector2 = Vector2.ZERO
@@ -212,34 +210,12 @@ func check_action():
 		else:
 			player_action = null 
 			return false
-
-
-func check_idle_input(delta):
-	if Input.is_action_just_pressed("player_interact"):
-		player_action = Attack.new()
-		player_action.attack_position.x = select_tile.global_position.x-0.5
-		player_action.attack_position.y = select_tile.global_position.z-0.5
-		enable_select_tile(false)
-		return
-	if Input.is_action_just_pressed("player_left"):
-		select_tile.position.x -= 1
-		return
-	if Input.is_action_just_pressed("player_right"):
-		select_tile.position.x += 1
-		return
-	if Input.is_action_just_pressed("player_up"):
-		select_tile.position.z -= 1
-		return
-	if Input.is_action_just_pressed("player_down"):
-		select_tile.position.z += 1
-		return
 	
 func tactics_act(delta):
 	if battle.tactics_state == battle.TacticsState.RUNNING :
 		if act_state == ActState.COOLDOWN:
 			cooldown(delta)
 		if act_state == ActState.IDLE:
-			check_idle_input(delta)
 			if check_action():
 				transit_act_state(ActState.PRECAST)
 		if act_state == ActState.PRECAST:
@@ -286,11 +262,9 @@ func idle_state_pre_act():
 	player_action = null
 	act_bar.get_node("State").text = "IDLE"
 	act_bar.get_node("ActPosition").text =  "0/100"
-	cmd_panel.get_node("Level1/MainPanel").visible = true
 	print(player_id ,": enter idle state" )
 	
 func idle_state_post_act():
-	cmd_panel.clear_all_level()
 	pass
 
 func precast_state_pre_act():
@@ -364,18 +338,6 @@ func update_act_bar():
 	pos.x -= 20
 	act_bar.set_position(pos)
 
-func update_cmd_panel():
-	var camera = get_viewport().get_camera_3d()
-	var pos = camera.unproject_position(global_position)
-	pos.y -= 180
-	pos.x -= 80
-	cmd_panel.set_position(pos)
-	
-func enable_select_tile(b : bool):
-	select_tile.position.x = 0
-	select_tile.position.z = 0
-	select_tile.visible = b
-
 func do_attack_damage(attack : Attack):
 	var h = attack.attack_target.cur_hp - attack.attack_damage
 	if h < 0:
@@ -390,10 +352,7 @@ func _ready():
 	reset_to_grid(init_grid)
 	pawn = $Pawn
 	battle = find_parent("Battle")
-	cmd_panel = get_node("CmdPanel")
 	act_bar = get_node("ActBar")
-	select_tile = get_node("SelectTile")
-	select_tile.visible = false
 	act_bar_position = 0
 	transit_act_state(ActState.COOLDOWN)
 	pass # Replace with function body.
@@ -402,5 +361,4 @@ func _ready():
 func _process(delta):
 	tactics_act(delta)
 	update_act_bar()
-	update_cmd_panel()
 	pass

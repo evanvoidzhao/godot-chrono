@@ -61,7 +61,7 @@ func str_to_vector2(s:String):
 	var a = s.split_floats(",")
 	return Vector2(a[0], a[1])
 	
-func set_player_grid_map(old_pos:Vector2, new_pos:Vector2, player:BattlePlayer):
+func set_player_grid_map(old_pos:Vector2, new_pos:Vector2, player:BattleSprite):
 	player_grid_map.erase(vector2_to_str(old_pos))
 	player_grid_map[vector2_to_str(new_pos)] = player
 	
@@ -78,14 +78,18 @@ func _ready():
 	tactics_camera = get_node("TacticsCamera")
 	tactics_terrain = get_node("Terrain")
 	
-	var scene = preload("res://assets/battle_player.tscn")
-	for i in [0,1,2]:
-		var p : BattlePlayer = scene.instantiate()
-		p.configure("player"+str(i), randf_range(0.5, 1.5),100,100,50)
-		p.init_grid = Vector2(0,1+i)
-		var grid_player = vector2_to_str(p.init_grid)
-		player_grid_map[grid_player] = p
-		self.add_child(p)
+	for child in $Sprite.get_children():
+		var grid_player = vector2_to_str(child.init_grid)
+		player_grid_map[grid_player] = child
+
+	#var scene = preload("res://assets/battle_player.tscn")
+	#for i in [0,1,2]:
+	#	var p : BattlePlayer = scene.instantiate()
+	#	p.configure("player"+str(i), randf_range(0.5, 1.5),100,100,50)
+	#	p.init_grid = Vector2(0,1+i)
+	#	var grid_player = vector2_to_str(p.init_grid)
+	#	player_grid_map[grid_player] = p
+	#	self.add_child(p)
 		
 	#player1.configure("player1", 0.7)
 	#player2.configure("player2", 1)
