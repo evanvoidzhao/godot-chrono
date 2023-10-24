@@ -25,8 +25,10 @@ init_grid = Vector2(5, 5)
 
 [node name="Enemy" parent="Sprite" instance=ExtResource("6_o1wq2")]
 player_id = "enemy01"
+sp_update_speed = 3.0
 init_grid = Vector2(1, 1)
 
 [node name="Enemy2" parent="Sprite" instance=ExtResource("6_o1wq2")]
 player_id = "enemy02"
+sp_update_speed = 2.0
 init_grid = Vector2(2, 3)

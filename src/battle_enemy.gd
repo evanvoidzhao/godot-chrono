@@ -196,7 +196,7 @@ func move_target(v : Vector2):
 	player_action.target_position = player_grid + v
 	
 func check_action():
-	if player_action == null : return false
+	if player_action == null : random_move_target()
 	if player_action.act_name == Move.s_act_name:
 		if cur_sp < Move.s_act_sp:
 			player_action = null 
