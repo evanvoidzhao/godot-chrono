@@ -30,9 +30,7 @@ var player_state: int = PlayerState.IDLE
 
 var dir = null;
 
-var player_id = null
-var act_speed = null
-var act_position = null
+var act_bar_position = 0
 
 #var action = null
 var player_action : Action = null
@@ -49,17 +47,18 @@ var player_action : Action = null
 #		"damage" : 10
 #	}
 #} 
-
-var max_hp  = 0
-var max_mp  = 0
-var max_sp  = 0
-var cur_hp  = 0
-var cur_mp  = 0
-var cur_sp  = 0
-
-var sp_update_speed = 1
+@export var player_id : String = ""
+@export var act_speed : float = 2.0
+@export var max_hp : int = 100
+@export var max_mp : int = 100
+@export var max_sp : float = 50
+@export var cur_hp : int = 100
+@export var cur_mp : int = 100
+@export var cur_sp : float = 50
+@export var sp_update_speed : float = 1.0
 
 func configure(id : String, act_s : float, h : int, m: int, s : int):
+	assert(player_id != "")
 	player_id = id
 	act_speed = act_s
 	max_hp = h
@@ -84,9 +83,9 @@ func pre_act(delta):
 	#if action.keys()[0] == "move":
 	if player_action == null: return
 		#target_grid = action.get("move").get("position")
-	act_position = act_position + (delta * act_speed)
-	act_bar.get_node("ActPosition").text = str(int(act_position/player_action.pre_range*100)) + "/100"
-	if act_position >= player_action.pre_range:
+	act_bar_position = act_bar_position + (delta * act_speed)
+	act_bar.get_node("ActPosition").text = str(int(act_bar_position/player_action.pre_range*100)) + "/100"
+	if act_bar_position >= player_action.pre_range:
 		transit_act_state(ActState.CAST)
 	return
 
@@ -99,15 +98,15 @@ func cast(delta):
 	
 func cooldown(delta):
 	if player_action == null:
-		act_position = act_position + (delta * act_speed)
-		act_bar.get_node("ActPosition").text = str(int(act_position/5*100)) + "/100"
-		if act_position >= 5:
+		act_bar_position = act_bar_position + (delta * act_speed)
+		act_bar.get_node("ActPosition").text = str(int(act_bar_position/5*100)) + "/100"
+		if act_bar_position >= 5:
 			transit_act_state(ActState.IDLE)
 		return
 
-	act_position = act_position + (delta * act_speed)
-	act_bar.get_node("ActPosition").text = str(int(act_position/player_action.post_range*100)) + "/100"
-	if act_position >= player_action.post_range:
+	act_bar_position = act_bar_position + (delta * act_speed)
+	act_bar.get_node("ActPosition").text = str(int(act_bar_position/player_action.post_range*100)) + "/100"
+	if act_bar_position >= player_action.post_range:
 		transit_act_state(ActState.IDLE)
 
 		
@@ -125,8 +124,8 @@ func cast_act_move():
 		transit_act_state(ActState.COOLDOWN)
 		
 func cast_act_attack(delta):
-	act_position = act_position + (delta * act_speed)
-	if act_position >= 10:
+	act_bar_position = act_bar_position + (delta * act_speed)
+	if act_bar_position >= 10:
 		transit_act_state(ActState.COOLDOWN)
 
 func check_can_attack(action : Attack):
@@ -283,7 +282,7 @@ func transit_act_state(state):
 	print(player_id ,": error state transit occuried")	
 
 func idle_state_pre_act():
-	act_position = 0
+	act_bar_position = 0
 	player_action = null
 	act_bar.get_node("State").text = "IDLE"
 	act_bar.get_node("ActPosition").text =  "0/100"
@@ -295,7 +294,7 @@ func idle_state_post_act():
 	pass
 
 func precast_state_pre_act():
-	act_position = 0
+	act_bar_position = 0
 	act_bar.get_node("State").text = "PRECAST"
 	if player_action.act_name == Move.s_act_name:
 		target_grid = player_action.target_position
@@ -305,7 +304,7 @@ func precast_state_post_act():
 	pass
 	
 func cast_state_pre_act():
-	act_position = 0
+	act_bar_position = 0
 	battle.change_state(battle.TacticsState.STOP)
 	act_bar.get_node("State").text = "CAST"
 	print(player_id ,": enter cast state")
@@ -322,7 +321,7 @@ func cast_state_post_act():
 	pass
 
 func cooldown_state_pre_act():
-	act_position = 0
+	act_bar_position = 0
 	battle.change_state(battle.TacticsState.RUNNING)
 	act_bar.get_node("State").text = "COOLDOWN"
 	print(player_id ,": enter cooldown state" )
@@ -387,6 +386,7 @@ func do_attack_damage(attack : Attack):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	assert(player_id != "")
 	reset_to_grid(Vector2(0,0))
 	pawn = $Pawn
 	battle = get_parent()
@@ -394,7 +394,7 @@ func _ready():
 	act_bar = get_node("ActBar")
 	select_tile = get_node("SelectTile")
 	select_tile.visible = false
-	act_position = 0
+	act_bar_position = 0
 	transit_act_state(ActState.COOLDOWN)
 	pass # Replace with function body.
 

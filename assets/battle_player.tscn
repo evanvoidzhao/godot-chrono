@@ -13,6 +13,7 @@ albedo_color = Color(0.239216, 0.219608, 0.14902, 1)
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_qkpu0")
+player_id = "me"
 
 [node name="Pawn" parent="." instance=ExtResource("2_qs61v")]
 
