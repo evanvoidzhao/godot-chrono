@@ -196,6 +196,13 @@ func move_target(v : Vector2):
 	player_action.target_position = player_grid + v
 	
 func check_action():
+	var g = battle.get_main_player_grid()
+	var distance_square = player_grid.distance_squared_to(g)
+	if distance_square <= (2 * 2) * 2: 
+		player_action = Attack.new()
+		player_action.attack_position.x = g.x
+		player_action.attack_position.y = g.y
+	
 	if player_action == null : random_move_target()
 	if player_action.act_name == Move.s_act_name:
 		if cur_sp < Move.s_act_sp:
@@ -286,6 +293,7 @@ func cast_state_pre_act():
 		pass #todo 考虑把移动判断移动到这里
 	if player_action.act_name == Attack.s_act_name:
 		if check_still_can_attack(player_action):
+			pawn.enter_attack_animation()
 			do_attack_damage(player_action)
 		else:
 			print(player_id ,": attack out of range" )
@@ -298,6 +306,7 @@ func cooldown_state_pre_act():
 	act_bar_position = 0
 	battle.change_state(battle.TacticsState.RUNNING)
 	act_bar.get_node("State").text = "COOLDOWN"
+	pawn.enter_idle_animation()
 	print(player_id ,": enter cooldown state" )
 	
 func cooldown_state_post_act():

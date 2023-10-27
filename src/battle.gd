@@ -68,6 +68,9 @@ func set_player_grid_map(old_pos:Vector2, new_pos:Vector2, player:BattleSprite):
 func get_player_from_grid_map(v:Vector2):
 	return player_grid_map.get(vector2_to_str(v))
 	
+func get_main_player_grid():
+	return $Sprite/Player.player_grid
+	
 func check_grid_available(v:Vector2):
 	return !(v in invalid_grid_list)
 	

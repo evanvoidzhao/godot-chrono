@@ -12,6 +12,7 @@ enum State{
 var animation_state = State.IDLE
 const ANIMATION_FRAMES = 4
 var curr_frame : int = 0
+
 @onready var animation_player = get_node("Character/AnimationPlayer")
 
 @export var player_type : String = ""
@@ -28,14 +29,13 @@ func rotate_pawn_sprite():
 			animation_player.play("idle_down_" + player_type)
 		if animation_state == State.MOVE :
 			animation_player.play("walk_down_" + player_type)
-		if animation_state == State.ATTACK :
-			animation_player.play("attack_down_" + player_type)
 	elif dot > 0.306: 
 		if animation_state == State.IDLE :
 			animation_player.play("idle_up_" + player_type)
 		if animation_state == State.MOVE :
 			animation_player.play("walk_up_" + player_type)
-		if animation_state == State.ATTACK :
+		
+	if animation_state == State.ATTACK :
 			animation_player.play("attack_down_" + player_type)
 
 func look_at_direction(dir):
