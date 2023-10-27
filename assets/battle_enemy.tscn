@@ -8,5 +8,6 @@
 script = ExtResource("1_1fs5n")
 
 [node name="Pawn" parent="." instance=ExtResource("2_i8xuo")]
+player_type = "enemy"
 
 [node name="ActBar" parent="." instance=ExtResource("3_yopdp")]

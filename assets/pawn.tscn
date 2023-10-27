@@ -218,18 +218,18 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fvyru"]
 _data = {
 "RESET": SubResource("Animation_ap7mt"),
-"attack_down": SubResource("Animation_p8oi0"),
-"attack_down_2": SubResource("Animation_utd8y"),
-"attack_up": SubResource("Animation_xr8nk"),
-"attack_up_2": SubResource("Animation_5k8s5"),
-"idle_down": SubResource("Animation_tou80"),
-"idle_down_2": SubResource("Animation_pp870"),
-"idle_up": SubResource("Animation_hf32v"),
-"idle_up_2": SubResource("Animation_rn0b5"),
-"walk_down": SubResource("Animation_ro5s7"),
-"walk_down_2": SubResource("Animation_v7y0t"),
-"walk_up": SubResource("Animation_6nc4w"),
-"walk_up_2": SubResource("Animation_527qj")
+"attack_down_enemy": SubResource("Animation_utd8y"),
+"attack_down_player": SubResource("Animation_p8oi0"),
+"attack_up_enemy": SubResource("Animation_5k8s5"),
+"attack_up_player": SubResource("Animation_xr8nk"),
+"idle_down_enemy": SubResource("Animation_pp870"),
+"idle_down_player": SubResource("Animation_tou80"),
+"idle_up_enemy": SubResource("Animation_rn0b5"),
+"idle_up_player": SubResource("Animation_hf32v"),
+"walk_down_enemy": SubResource("Animation_v7y0t"),
+"walk_down_player": SubResource("Animation_ro5s7"),
+"walk_up_enemy": SubResource("Animation_527qj"),
+"walk_up_player": SubResource("Animation_6nc4w")
 }
 
 [node name="Pawn" type="Node3D"]
@@ -272,6 +272,27 @@ libraries = {
 }
 
 [node name="L" type="OmniLight3D" parent="Character2"]
+visible = false
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="Character3" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+visible = false
+pixel_size = 0.015
+billboard = 1
+shaded = true
+texture_filter = 0
+texture = ExtResource("2_ir6dl")
+region_enabled = true
+region_rect = Rect2(20, 277, 46, 89)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Character3"]
+libraries = {
+"": SubResource("AnimationLibrary_fvyru")
+}
+
+[node name="L" type="OmniLight3D" parent="Character3"]
 visible = false
 light_energy = 3.0
 shadow_enabled = true

@@ -16,6 +16,7 @@ script = ExtResource("1_qkpu0")
 player_id = "me"
 
 [node name="Pawn" parent="." instance=ExtResource("2_qs61v")]
+player_type = "player"
 
 [node name="CmdPanel" parent="." instance=ExtResource("2_35efr")]
 

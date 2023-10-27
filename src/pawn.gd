@@ -5,13 +5,16 @@ class_name Pawn
 enum State{
 	IDLE,
 	MOVE,
-	JUMP
+	JUMP,
+	ATTACK
 }
 
 var animation_state = State.IDLE
 const ANIMATION_FRAMES = 4
 var curr_frame : int = 0
 @onready var animation_player = get_node("Character/AnimationPlayer")
+
+@export var player_type : String = ""
 
 func rotate_pawn_sprite():
 	var camera_forward = -get_viewport().get_camera_3d().global_transform.basis.z
@@ -22,15 +25,18 @@ func rotate_pawn_sprite():
 	if dot < -0.306: 
 		if animation_state == State.IDLE :
 			$Character.frame = curr_frame
-			animation_player.play("idle_down")
+			animation_player.play("idle_down_" + player_type)
 		if animation_state == State.MOVE :
-			animation_player.play("walk_down")
+			animation_player.play("walk_down_" + player_type)
+		if animation_state == State.ATTACK :
+			animation_player.play("attack_down_" + player_type)
 	elif dot > 0.306: 
 		if animation_state == State.IDLE :
-			animation_player.play("idle_up")
+			animation_player.play("idle_up_" + player_type)
 		if animation_state == State.MOVE :
-			animation_player.play("walk_up")
-		
+			animation_player.play("walk_up_" + player_type)
+		if animation_state == State.ATTACK :
+			animation_player.play("attack_down_" + player_type)
 
 func look_at_direction(dir):
 	var fixed_dir = dir*(Vector3(1,0,0) if abs(dir.x) > abs(dir.z) else Vector3(0,0,1))
@@ -42,9 +48,20 @@ func enter_idle_animation():
 
 func enter_walk_animation():
 	animation_state = State.MOVE
+	
+func enter_attack_animation():
+	animation_state = State.ATTACK
+	
+func set_character_texture(type):
+	if type == "player":
+		$Character.texture = load("res://assets/sprites/characters/chr_ro_FeiKanabian.png")  
+	if type == "enemy":
+		$Character.texture = load("res://assets/sprites/characters/chr_ro_loki.png")  
 
+		
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	set_character_texture(player_type)
 	pass # Replace with function body.
 
 

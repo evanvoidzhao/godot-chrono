@@ -312,6 +312,7 @@ func cast_state_pre_act():
 		pass #todo 考虑把移动判断移动到这里
 	if player_action.act_name == Attack.s_act_name:
 		if check_still_can_attack(player_action):
+			pawn.enter_attack_animation()
 			do_attack_damage(player_action)
 		else:
 			print(player_id ,": attack out of range" )
@@ -324,6 +325,7 @@ func cooldown_state_pre_act():
 	act_bar_position = 0
 	battle.change_state(battle.TacticsState.RUNNING)
 	act_bar.get_node("State").text = "COOLDOWN"
+	pawn.enter_idle_animation()
 	print(player_id ,": enter cooldown state" )
 	
 func cooldown_state_post_act():
