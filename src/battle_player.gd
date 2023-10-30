@@ -20,6 +20,7 @@ var pawn : Pawn = null
 var cmd_panel : Node = null
 var act_bar : Node = null
 var select_tile = null
+@onready var progress_bar : Node = $ProgressBar 
 
 var player_grid: Vector2 = Vector2.ZERO
 var target_grid: Vector2 = Vector2.ZERO
@@ -29,6 +30,7 @@ var player_state: int = PlayerState.IDLE
 
 var dir = null;
 
+var max_act_bar = 100
 var act_bar_position = 0
 
 #var action = null
@@ -79,12 +81,19 @@ func enter_running():
 func enter_stop():
 	print(player_id, ": battle stop ")
 
+func update_act_bar_position(delta, act_range):
+	act_bar_position = act_bar_position + (delta * act_speed)
+	act_bar.get_node("ActPosition").text = str(int(act_bar_position/act_range*100)) + "/100"
+	if act_state != ActState.COOLDOWN:
+		progress_bar.get_node("Act").value = int(act_bar_position/act_range*100)
+	else:
+		progress_bar.get_node("Act").value = 100 - int(act_bar_position/act_range*100)
+
 func pre_act(delta):
 	#if action.keys()[0] == "move":
 	if player_action == null: return
 		#target_grid = action.get("move").get("position")
-	act_bar_position = act_bar_position + (delta * act_speed)
-	act_bar.get_node("ActPosition").text = str(int(act_bar_position/player_action.pre_range*100)) + "/100"
+	update_act_bar_position(delta,player_action.pre_range)
 	if act_bar_position >= player_action.pre_range:
 		transit_act_state(ActState.CAST)
 	return
@@ -98,14 +107,12 @@ func cast(delta):
 	
 func cooldown(delta):
 	if player_action == null:
-		act_bar_position = act_bar_position + (delta * act_speed)
-		act_bar.get_node("ActPosition").text = str(int(act_bar_position/5*100)) + "/100"
+		update_act_bar_position(delta, 5)
 		if act_bar_position >= 5:
 			transit_act_state(ActState.IDLE)
 		return
 
-	act_bar_position = act_bar_position + (delta * act_speed)
-	act_bar.get_node("ActPosition").text = str(int(act_bar_position/player_action.post_range*100)) + "/100"
+	update_act_bar_position(delta, player_action.post_range)
 	if act_bar_position >= player_action.post_range:
 		transit_act_state(ActState.IDLE)
 
@@ -124,7 +131,7 @@ func cast_act_move():
 		transit_act_state(ActState.COOLDOWN)
 		
 func cast_act_attack(delta):
-	act_bar_position = act_bar_position + (delta * act_speed)
+	update_act_bar_position(delta, 10)
 	if act_bar_position >= 10:
 		transit_act_state(ActState.COOLDOWN)
 
@@ -157,6 +164,7 @@ func update_sp(delta):
 	else:
 		cur_sp = max_sp
 	act_bar.get_node("SP").text = str(int(cur_sp)) + "/" + str(max_sp)
+	progress_bar.get_node("SP").value = int(cur_sp)
 
 func check_dst_available(v):
 	if battle.get_player_from_grid_map(v) == null : return true
@@ -287,6 +295,8 @@ func idle_state_pre_act():
 	act_bar.get_node("State").text = "IDLE"
 	act_bar.get_node("ActPosition").text =  "0/100"
 	cmd_panel.get_node("Level1/MainPanel").visible = true
+	
+	progress_bar.get_node("Act").value = 0
 	print(player_id ,": enter idle state" )
 	
 func idle_state_post_act():
@@ -366,6 +376,13 @@ func update_act_bar():
 	pos.x -= 20
 	act_bar.set_position(pos)
 
+func update_progress_bar():
+	var camera = get_viewport().get_camera_3d()
+	var pos = camera.unproject_position(global_position)
+	pos.y += 20
+	pos.x -= 30
+	progress_bar.set_position(pos)
+
 func update_cmd_panel():
 	var camera = get_viewport().get_camera_3d()
 	var pos = camera.unproject_position(global_position)
@@ -379,13 +396,17 @@ func enable_select_tile(b : bool):
 	select_tile.visible = b
 
 func do_attack_damage(attack : Attack):
-	var h = attack.attack_target.cur_hp - attack.attack_damage
-	if h < 0:
-		attack.attack_target.cur_hp = 0
-	else:
-		attack.attack_target.cur_hp = h
+	attack.attack_target.be_attacked(attack);
 	print(player_id, ": attack ", attack.attack_target.player_id, " damage: ", attack.attack_damage)
 
+func be_attacked(attack):
+	var h = cur_hp - attack.attack_damage
+	if h < 0:
+		cur_hp = 0
+	else:
+		cur_hp = h
+	progress_bar.get_node("HP").value = cur_hp
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	assert(player_id != "")
@@ -397,6 +418,17 @@ func _ready():
 	select_tile = get_node("SelectTile")
 	select_tile.visible = false
 	act_bar_position = 0
+	
+	progress_bar.get_node("HP").max_value = max_hp
+	progress_bar.get_node("MP").max_value = max_mp
+	progress_bar.get_node("SP").max_value = max_sp
+	progress_bar.get_node("HP").value = cur_hp
+	progress_bar.get_node("MP").value = cur_mp
+	progress_bar.get_node("SP").value = cur_sp
+	
+	progress_bar.get_node("Act").max_value = max_act_bar
+	progress_bar.get_node("Act").value = 0
+	
 	transit_act_state(ActState.COOLDOWN)
 	pass # Replace with function body.
 
@@ -405,4 +437,5 @@ func _process(delta):
 	tactics_act(delta)
 	update_act_bar()
 	update_cmd_panel()
+	update_progress_bar()
 	pass

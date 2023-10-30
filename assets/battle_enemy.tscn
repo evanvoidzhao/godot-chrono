@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cqkemcx7abuq7"]
+[gd_scene load_steps=5 format=3 uid="uid://cqkemcx7abuq7"]
 
 [ext_resource type="Script" path="res://src/battle_enemy.gd" id="1_1fs5n"]
 [ext_resource type="PackedScene" uid="uid://byhwfxny4rk0j" path="res://assets/pawn.tscn" id="2_i8xuo"]
 [ext_resource type="PackedScene" uid="uid://cyu2u5wkc7a1k" path="res://assets/act_bar.tscn" id="3_yopdp"]
+[ext_resource type="PackedScene" uid="uid://h1sgypej3a6q" path="res://assets/sprite_progress_bar.tscn" id="4_hudpb"]
 
 [node name="Enemy" type="CharacterBody3D"]
 script = ExtResource("1_1fs5n")
@@ -11,3 +12,5 @@ script = ExtResource("1_1fs5n")
 player_type = "enemy"
 
 [node name="ActBar" parent="." instance=ExtResource("3_yopdp")]
+
+[node name="ProgressBar" parent="." instance=ExtResource("4_hudpb")]

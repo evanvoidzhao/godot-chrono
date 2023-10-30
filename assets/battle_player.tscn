@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://wncb254i154u"]
+[gd_scene load_steps=8 format=3 uid="uid://wncb254i154u"]
 
 [ext_resource type="Script" path="res://src/battle_player.gd" id="1_qkpu0"]
 [ext_resource type="PackedScene" uid="uid://d0qwabssdf0ke" path="res://assets/cmd_panel.tscn" id="2_35efr"]
 [ext_resource type="PackedScene" uid="uid://byhwfxny4rk0j" path="res://assets/pawn.tscn" id="2_qs61v"]
 [ext_resource type="PackedScene" uid="uid://cyu2u5wkc7a1k" path="res://assets/act_bar.tscn" id="3_eetbj"]
+[ext_resource type="PackedScene" uid="uid://h1sgypej3a6q" path="res://assets/sprite_progress_bar.tscn" id="5_3y7j6"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_tb775"]
 size = Vector2(1, 1)
@@ -26,3 +27,5 @@ player_type = "player"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 mesh = SubResource("PlaneMesh_tb775")
 surface_material_override/0 = SubResource("StandardMaterial3D_4hwjn")
+
+[node name="ProgressBar" parent="." instance=ExtResource("5_3y7j6")]
